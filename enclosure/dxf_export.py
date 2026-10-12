@@ -9,6 +9,8 @@ def export_dxf(shape: Shape, path):
     dxf.layers.add("BEND", color = 5, linetype = "DASHED")
     msp = dxf.modelspace()
     msp.add_lwpolyline(shape.outline, close = True, dxfattribs={"layer":"CUT"})
+    for center in shape.circle_center:
+        msp.add_circle(center, (shape.circle_diameter)/2, dxfattribs={"layer":"CUT"})
     for start, end in shape.bends:
         msp.add_line(start, end, dxfattribs={"layer":"BEND"})
     dxf.saveas(path)
